@@ -1,0 +1,27 @@
+name: xpipe
+version: '9.4.1'
+summary: Shell connection hub and remote file manager
+description: |
+  XPipe is a new type of shell connection hub and remote file manager that allows you 
+  to access your entire server infrastructure from your local machine. It works on top 
+  of your installed command-line programs and does not require any setup on your remote 
+  systems. So if you normally use CLI tools like ssh, docker, kubectl, etc. to connect 
+  to your servers, you can just use XPipe on top of that.
+
+base: core22
+
+confinement: devmode
+
+apps:
+  xpipe:
+    command: xpipe
+    plugs:
+      - network
+
+parts:
+  irrigation-webapp:
+    plugin: gradle
+    source: https://github.com/xpipe-io/xpipe.git
+    source-type: git
+    gradle-options: [-xtest]   # suppress running of tests and run the war task
+    gradle-output-dir: dist/runtime
